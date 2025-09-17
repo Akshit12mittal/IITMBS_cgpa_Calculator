@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IITM BS CGPA Calculator</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 193, 7, 0.05) 0%, transparent 50%);
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 
+    0 0 50px rgba(255, 193, 7, 0.2),
+    inset 0 1px 0 rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  animation: fadeInUp 0.8s ease;
+}
+
+h2 {
+  color: #FFC107;
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+h3 {
+  color: #FFC107;
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.level-selector {
+  text-align: center;
+  margin-bottom: 40px;
+  background: rgba(255, 193, 7, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.level-selector label {
+  display: block;
+  color: #FFC107;
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+select {
+  background: #2c2c2c;
+  color: #ffffff;
+  border: 2px solid #FFC107;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  min-width: 200px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+select:hover {
+  background: #3c3c3c;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+}
+
+select:focus {
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+  transform: translateY(-2px);
+}
+
+select option {
+  background: #2c2c2c;
+  color: #ffffff;
+  padding: 10px;
+}
+
+.section {
+  margin: 30px 0;
+  background: rgba(255, 193, 7, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+  border-left: 4px solid #FFC107;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s ease;
+  animation-fill-mode: both;
+}
+
+.section h3 {
+  color: #FFC107;
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid rgba(255, 193, 7, 0.3);
+  padding-bottom: 10px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.course {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  transition: all 0.3s ease;
+}
+
+.course:hover {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: #FFC107;
+  transform: translateX(5px);
+}
+
+.course-name {
+  flex: 1;
+  color: #ffffff;
+  font-weight: 500;
+  margin-right: 20px;
+}
+
+.course select {
+  min-width: 120px;
+  background: #1a1a1a;
+  border: 1px solid #FFC107;
+  padding: 8px 12px;
+}
+
+button {
+  background: linear-gradient(45deg, #FFC107, #FFD54F);
+  color: #000000;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 25px;
+  font-size: 1.1em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 30px auto;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+button:hover {
+  background: linear-gradient(45deg, #FFD54F, #FFC107);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+}
+
+button:active {
+  transform: translateY(-1px);
+}
+
+.result {
+  margin-top: 30px;
+  background: rgba(255, 193, 7, 0.15);
+  border: 2px solid #FFC107;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  font-size: 1.1em;
+  line-height: 2;
+  box-shadow: 0 0 30px rgba(255, 193, 7, 0.3);
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  min-height: 50px;
+}
+
+.result div {
+  margin: 10px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  border-left: 3px solid #FFC107;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.result .highlight {
+  background: rgba(255, 193, 7, 0.2) !important;
+  font-size: 1.3em !important;
+  font-weight: bold !important;
+  color: #FFC107 !important;
+  border: 2px solid #FFC107 !important;
+  border-left: 5px solid #FFC107 !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFC107;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD54F;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  h2 {
+    font-size: 2em;
+  }
+  
+  .course {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .course-name {
+    margin-right: 0;
+    text-align: center;
+  }
+  
+  select, button {
+    width: 100%;
+  }
+}
+
+/* Animation for page load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section:nth-child(1) { animation-delay: 0.1s; }
+.section:nth-child(2) { animation-delay: 0.2s; }
+.section:nth-child(3) { animation-delay: 0.3s; }
+.section:nth-child(4) { animation-delay: 0.4s; }
+.section:nth-child(5) { animation-delay: 0.5s; }
+
+/* Footer Styles */
+.footer {
+  margin-top: 50px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+  border-top: 3px solid #FFC107;
+  border-radius: 15px 15px 0 0;
+  padding: 40px 30px 20px;
+  color: #ffffff;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-section h4 {
+  color: #FFC107;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid rgba(255, 193, 7, 0.3);
+  padding-bottom: 8px;
+}
+
+.footer-section p {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: inline-block;
+  padding: 8px 15px;
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid #FFC107;
+  border-radius: 20px;
+  color: #FFC107;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background: #FFC107;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.disclaimer {
+  background: rgba(255, 193, 7, 0.05);
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #FFC107;
+}
+
+.disclaimer p {
+  margin: 8px 0;
+}
+
+.disclaimer strong {
+  color: #FFC107;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 193, 7, 0.3);
+  padding-top: 20px;
+  text-align: center;
+  color: #999999;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .footer {
+    padding: 30px 20px 15px;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>IITM BS CGPA Calculator</h2>
+    <h3>Calculate your CGPA Without any Sign In..!!!</h3>
+
+    <div class="level-selector">
+      <label for="level">Select Current Level:</label>
+      <select id="level" onchange="loadCourses()">
+        <option value="">--Select--</option>
+        <option value="foundation">Foundation</option>
+        <option value="diploma">Diploma</option>
+        <option value="BSc_Degree">BSc Degree</option>
+      </select>
+    </div>
+
+    <div id="courses"></div>
+    <button onclick="calculateCGPA()">Calculate CGPA</button>
+
+    <div class="result" id="result" style="display: none;">
+      <h3 style="color: #FFC107; margin-bottom: 20px;">📊 Your CGPA Results</h3>
+      <div id="resultContent"></div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section disclaimer">
+          <h4>⚠️ Important Disclaimer</h4>
+          <p><strong>This project is NOT associated with IIT Madras under any circumstances.</strong></p>
+          <p>This is an independent educational project created for learning purposes only.</p>
+          <p>Please verify all calculations with official sources.</p>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; CGPA Calculator Project | Made with ❤️ for students</p>
+        <p>🚀 Open Source | 🎯 Educational Purpose | 🔒 Privacy First</p>
+      </div>
+    </footer>
+  </div>
+
+<script>
+const coursesData = {
+  foundation: [
+    { name: "Mathematics for Data Science I (4 Credits)", credits: 4 },
+    { name: "Statistics for Data Science I (4 Credits)", credits: 4 },
+    { name: "Computational Thinking (4 Credits)", credits: 4 },
+    { name: "English I (4 Credits)", credits: 4 },
+    { name: "Mathematics for Data Science II (4 Credits)", credits: 4 },
+    { name: "Statistics for Data Science II (4 Credits)", credits: 4 },
+    { name: "Programming in Python (4 Credits)", credits: 4 },
+    { name: "English II (4 Credits)", credits: 4 },
+  ],
+  diploma_programming: [
+    { name: "Database Management Systems (4 Credits)", credits: 4 },
+    { name: "Programming, Data Structures and Algorithms using Python (4 Credits)", credits: 4 },
+    { name: "Modern Application Development I (4 Credits)", credits: 4 },
+    { name: "Modern Application Development I Project (2 cr)", credits: 2 },
+    { name: "Programming Concepts using Java (4 Credits)", credits: 4 },
+    { name: "Modern Application Development II (4 Credits)", credits: 4 },
+    { name: "Modern Application Development II Project (2 cr)", credits: 2 },
+    { name: "System Commands (3 cr)", credits: 3 },
+  ],
+  diploma_datascience: [
+    { name: "Machine Learning Foundations (4 Credits)", credits: 4 },
+    { name: "Business Data Management (4 Credits)", credits: 4 },
+    { name: "Machine Learning Techniques (4 Credits)", credits: 4 },
+    { name: "Machine Learning Practice (4 Credits)", credits: 4 },
+    { name: "Machine Learning Practice Project (2 cr)", credits: 2 },
+    { name: "Tools in Data Science (3 cr)", credits: 3 },
+    { name: "Business Analytics (Option 1) (4 Credits)", credits: 4 },
+    { name: "Business Data Management Project (Option 1) (2 cr)", credits: 2 },
+    { name: "Introduction to Deep Learning & Generative AI (Option 2) (4 Credits)", credits: 4 },
+    { name: "Deep Learning & Generative AI Project (Option 2) (2 cr)", credits: 2 },
+  ],
+  BSc_Degree: [
+    { name: "Software Engineering (4 Credits)", credits: 4 },
+    { name: "Software Testing (4 Credits)", credits: 4 },
+    { name: "AI: Search Methods for Problem Solving (4 Credits)", credits: 4 },
+    { name: "Deep Learning (4 Credits)", credits: 4 },
+    { name: "Strategies for Professional Growth (4 Credits)", credits: 4 },
+    { name: "Elective 1 (4 Credits)", credits: 4 },
+    { name: "Elective 2 (4 Credits)", credits: 4 },
+  ]
+};
+
+const gradePoints = {
+  "S": 10, "A": 9, "B": 8, "C": 7, "D": 6, "E": 4,
+  "U": 0, "WA": 0, "WQ": 0,
+  "I": null, "I_BOTH": null, "I_OP": null,
+  "NA": null
+};
+
+function loadCourses() {
+  const level = document.getElementById("level").value;
+  const coursesDiv = document.getElementById("courses");
+  const resultDiv = document.getElementById("result");
+  
+  coursesDiv.innerHTML = "";
+  resultDiv.style.display = "none";
+
+  if (!level) return;
+
+  let sections = [];
+  if (level === "foundation") {
+    sections = [["Foundation", coursesData.foundation]];
+  }
+  if (level === "diploma") {
+    sections = [
+      ["Foundation", coursesData.foundation],
+      ["Diploma - Programming", coursesData.diploma_programming],
+      ["Diploma - Data Science", coursesData.diploma_datascience],
+    ];
+  }
+  if (level === "BSc_Degree") {
+    sections = [
+      ["Foundation", coursesData.foundation],
+      ["Diploma - Programming", coursesData.diploma_programming],
+      ["Diploma - Data Science", coursesData.diploma_datascience],
+      ["BSc Degree", coursesData.BSc_Degree],
+    ];
+  }
+
+  sections.forEach(([sectionName, courses]) => {
+    const secDiv = document.createElement("div");
+    secDiv.className = "section";
+    secDiv.innerHTML = `<h3>${sectionName}</h3>`;
+    courses.forEach((course, index) => {
+      const div = document.createElement("div");
+      div.className = "course";
+      div.innerHTML = `
+        <span class="course-name">${course.name}</span>
+        <select id="${sectionName}-${index}">
+          <option value="NA">N/A</option>
+          <option value="S">S (10)</option>
+          <option value="A">A (9)</option>
+          <option value="B">B (8)</option>
+          <option value="C">C (7)</option>
+          <option value="D">D (6)</option>
+          <option value="E">E (4)</option>
+          <option value="U">U (0)</option>
+          <option value="WA">WA (0)</option>
+          <option value="WQ">WQ (0)</option>
+          <option value="I">I (Incomplete)</option>
+          <option value="I_BOTH">I_BOTH (Incomplete)</option>
+          <option value="I_OP">I_OP (Incomplete)</option>
+        </select>
+      `;
+      secDiv.appendChild(div);
+    });
+    coursesDiv.appendChild(secDiv);
+  });
+}
+
+function computeGPA(courses, sectionName) {
+  let totalPoints = 0, totalCredits = 0;
+  courses.forEach((course, index) => {
+    const selectElement = document.getElementById(`${sectionName}-${index}`);
+    if (selectElement) {
+      const grade = selectElement.value;
+      const gp = gradePoints[grade];
+      if (gp !== null && gp !== undefined) {
+        totalPoints += gp * course.credits;
+        totalCredits += course.credits;
+      }
+    }
+  });
+  return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "N/A";
+}
+
+function calculateCGPA() {
+  const level = document.getElementById("level").value;
+  if (!level) {
+    alert("Please select a level first!");
+    return;
+  }
+
+  let results = [];
+  let allCourses = [];
+
+  // Foundation only
+  if (level === "foundation") {
+    const fCG = computeGPA(coursesData.foundation, "Foundation");
+    results.push(`<div>📚 Foundation CGPA: <strong>${fCG}</strong></div>`);
+    allCourses = [...coursesData.foundation.map((c, i) => ({...c, id: `Foundation-${i}`}))];
+  }
+
+  // Diploma & BSc
+  if (level === "diploma" || level === "BSc_Degree") {
+    const fCG = computeGPA(coursesData.foundation, "Foundation");
+    const pCG = computeGPA(coursesData.diploma_programming, "Diploma - Programming");
+    const dCG = computeGPA(coursesData.diploma_datascience, "Diploma - Data Science");
+
+    results.push(`<div>📚 Foundation CGPA: <strong>${fCG}</strong></div>`);
+    results.push(`<div>💻 Diploma (Programming) CGPA: <strong>${pCG}</strong></div>`);
+    results.push(`<div>📊 Diploma (Data Science) CGPA: <strong>${dCG}</strong></div>`);
+
+    allCourses = [
+      ...coursesData.foundation.map((c, i) => ({...c, id: `Foundation-${i}`})),
+      ...coursesData.diploma_programming.map((c, i) => ({...c, id: `Diploma - Programming-${i}`})),
+      ...coursesData.diploma_datascience.map((c, i) => ({...c, id: `Diploma - Data Science-${i}`})),
+    ];
+
+    // ✅ Diploma Projects (handle elective properly)
+    const projectCourses = [
+      { section: "Diploma - Programming", name: "Modern Application Development I Project (2 cr)" },
+      { section: "Diploma - Programming", name: "Modern Application Development II Project (2 cr)" },
+      { section: "Diploma - Data Science", name: "Machine Learning Practice Project (2 cr)" },
+      { section: "Diploma - Data Science", name: "Business Data Management Project (Option 1) (2 cr)" },
+      { section: "Diploma - Data Science", name: "Deep Learning & Generative AI Project (Option 2) (2 cr)" }
+    ];
+    let projectPoints = 0, projectCredits = 0, electiveChosen = false;
+
+    projectCourses.forEach(pc => {
+      const sectionCourses = coursesData[pc.section === "Diploma - Programming" ? "diploma_programming" : "diploma_datascience"];
+      const idx = sectionCourses.findIndex(c => c.name === pc.name);
+      if (idx >= 0) {
+        const selectElement = document.getElementById(`${pc.section}-${idx}`);
+        if (selectElement) {
+          const grade = selectElement.value;
+          const gp = gradePoints[grade];
+          if (gp !== null && gp !== undefined) {
+            if (pc.name.includes("Option")) {
+              if (!electiveChosen && grade !== "NA") {
+                projectPoints += gp * sectionCourses[idx].credits;
+                projectCredits += sectionCourses[idx].credits;
+                electiveChosen = true;
+              }
+            } else {
+              projectPoints += gp * sectionCourses[idx].credits;
+              projectCredits += sectionCourses[idx].credits;
+            }
+          }
+        }
+      }
+    });
+
+    const projCG = projectCredits > 0 ? (projectPoints / projectCredits).toFixed(2) : "N/A";
+    results.push(`<div>🚀 Diploma Projects CGPA: <strong>${projCG}</strong></div>`);
+  }
+
+  // ✅ BSc Degree
+  if (level === "BSc_Degree") {
+    const bCG = computeGPA(coursesData.BSc_Degree, "BSc Degree");
+    results.push(`<div>🎓 BSc Degree CGPA: <strong>${bCG}</strong></div>`);
+    allCourses.push(...coursesData.BSc_Degree.map((c, i) => ({...c, id: `BSc Degree-${i}`})));
+  }
+
+  // ✅ Final Aggregate
+  let totalPoints = 0, totalCredits = 0;
+  allCourses.forEach(course => {
+    const selectElement = document.getElementById(course.id);
+    if (selectElement) {
+      const grade = selectElement.value;
+      const gp = gradePoints[grade];
+      if (gp !== null && gp !== undefined) {
+        totalPoints += gp * course.credits;
+        totalCredits += course.credits;
+      }
+    }
+  });
+  const aggCGPA = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "N/A";
+
+  results.push(`<div class="highlight">🌟 Overall Aggregate CGPA: <strong>${aggCGPA}</strong></div>`);
+  results.push(`<div>📋 Total Credits Considered: <strong>${totalCredits}</strong></div>`);
+
+  // ✅ Funny Motivation
+  const funnyFacts = [
+    "Wisdom has always been chasing you... but you keep outrunning it.",
+    "You have something no one else does — the ability to make confidence look completely undeserved.",
+    "You're not lost... the map just gave up trying to find you.",
+    "You bring so much to the table — mostly confusion, but still, it's something.",
+    "Your potential is like your phone on 1% — technically still there, just not doing much.",
+    "You're proof that evolution doesn't always go in one direction."
+  ];
+  const randomFact = funnyFacts[Math.floor(Math.random() * funnyFacts.length)];
+  results.push(`<div style="margin-top:20px; font-style:italic; color:#FFD54F;">${randomFact}</div>`);
+
+  // Display results
+  const resultDiv = document.getElementById("result");
+  const resultContent = document.getElementById("resultContent");
+  resultContent.innerHTML = results.join("");
+  resultDiv.style.display = "block";
+  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("CGPA Calculator loaded successfully!");
+});
+</script>
+</body>
+</html>
