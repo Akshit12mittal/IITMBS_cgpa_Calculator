@@ -1,7 +1,8 @@
 # 📊 IITM BS CGPA Calculator  
 ### An **anonymous web app** to calculate **GPA & CGPA** for IIT Madras BS in Data Science & Applications learners.  
 ### No login, No data collection — just select your grades, and get your CGPA instantly.  
-#### Link to Calculator: [https://akshit12mittal.github.io/IITMBS_cgpa_Calculator/](https://akshit12mittal.github.io/IITMBS_cgpa_Calculator/)
+#### Link to Calculator: [IITM BS CGPA Calculator](https://akshit12mittal.github.io/IITMBS_cgpa_Calculator/)
+##### Developed by: [Akshit Mittal](https://www.linkedin.com/in/akshit12mittal/)
 ---
 ## 🚀 Features  
 - 🎯 Choose your current level → Foundation / Diploma / BSc Degree  
